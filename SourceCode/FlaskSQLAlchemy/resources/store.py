@@ -1,12 +1,12 @@
-from flask_restful import reqparse, Resource
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required
+from flask_restful import Resource
 
 from SourceCode.FlaskSQLAlchemy.models.store import StoreModel
 
 
 class Store(Resource):
 
-    @jwt_required()
+    @jwt_required
     def get(self, name):
         store = StoreModel.find_store_by_name(name)
         if store:
@@ -34,4 +34,4 @@ class Store(Resource):
 
 class StoreList(Resource):
     def get(self):
-        return {'store': [store.json() for store in StoreModel.query.all()]}
+        return {'store': [store.json() for store in StoreModel.find_all()]}
